@@ -184,4 +184,14 @@ window.addEventListener('DOMContentLoaded', function () {
     });
 
 
+    let descrButton = document.querySelectorAll('.description-btn');
+
+    for (let i = 0; i < descrButton.length; i++) {
+        descrButton[i].addEventListener('click', function() {
+            overlay.style.display = 'block';
+            this.classList.add('more-splash');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
 });

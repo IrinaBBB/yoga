@@ -36,7 +36,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     // Timer 
 
-    let deadline = '2018-11-31 14:30';
+    let deadline = '2018-12-15 14:30';
 
     function getTimeRemaining(endtime) {
 
@@ -96,9 +96,20 @@ window.addEventListener('DOMContentLoaded', function () {
     function smoothScroll(target, duration) {
         var target = document.querySelector(target),
             targetPosition = target.getBoundingClientRect().top,
-            startPosition = window.pageYOffset,
-            distance = targetPosition - startPosition,
+            startPosition = 0,
+            distance = targetPosition + startPosition,
             startTime = null;
+
+    console.log(target.getBoundingClientRect().top);
+
+
+            
+
+            
+
+            console.log('targetPostition' + targetPosition);
+            console.log('startPosition' + startPosition);
+            console.log('distnace' + distance); 
 
 
         function animation(currentTime) {
@@ -143,6 +154,33 @@ window.addEventListener('DOMContentLoaded', function () {
 
     section4.addEventListener('click', function () {
         smoothScroll('#contacts', 2000);
+    });
+
+    console.log(section1.getBoundingClientRect().top);
+    console.log(section2.getBoundingClientRect().top);
+    console.log(section3.getBoundingClientRect().top);
+    console.log(section4.getBoundingClientRect().top);
+
+
+
+
+    // Modal window
+
+    let more = document.querySelector('.more'),
+               overlay = document.querySelector('.overlay'),
+               close = document.querySelector('.popup-close');
+
+    more.addEventListener('click', function() {
+        overlay.style.display = 'block';
+        this.classList.add('more-splash');
+        document.body.style.overflow = 'hidden';
+    });
+
+    close.addEventListener('click', function() {
+        overlay.style.display = 'none';
+        more.classList.remove('more-splash');
+        document.body.style.overflow = '';
+
     });
 
 

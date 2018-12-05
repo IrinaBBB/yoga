@@ -193,8 +193,7 @@ window.addEventListener('DOMContentLoaded', function () {
     let message = {
         loading: 'Загрузка...',
         success: 'Спасибо! Скоро мы с вами свяжемся!',
-        failure: 'Что-то пошло не так...',
-        phone: 'Введите номер телефона в правильном формате'
+        failure: 'Что-то пошло не так...'
     };
 
     let form = document.querySelector('.main-form'),
@@ -204,6 +203,14 @@ window.addEventListener('DOMContentLoaded', function () {
         statusMessage = document.createElement('div');
 
         statusMessage.classList.add('status');
+
+    input[0].addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9+]/ig, '');
+        });
+
+    bottomInput[1].addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9+]/ig, '');
+    });
 
 
     bottomForm.addEventListener('submit', function(event) {
@@ -223,20 +230,8 @@ window.addEventListener('DOMContentLoaded', function () {
             obj[key] = value;
         });
 
-        let pattern = new RegExp('/^[0-9\-\+]{9,15}$/');
         let json = JSON.stringify(obj);
-
-        if (pattern.test(obj['phone'])) {
-            request.send(json);
-            statusMessage.innerHTML = '';
-
-        } else {
-            statusMessage.innerHTML = message.phone;
-        }
-
-
-
-        
+        request.send(json);
 
         request.addEventListener('readystatechange', function() {
             if (request.readyState < 4) {

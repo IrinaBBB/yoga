@@ -195,96 +195,6 @@ window.addEventListener('DOMContentLoaded', function () {
         success: 'Спасибо! Скоро мы с вами свяжемся!',
         failure: 'Что-то пошло не так...'
     };
-    /*
-        let form = document.querySelector('.main-form'),
-            bottomForm = document.querySelector('#form'),
-            bottomInput = bottomForm.getElementsByTagName('input'),
-            input = form.getElementsByTagName('input'),
-            statusMessage = document.createElement('div');
-
-            statusMessage.classList.add('status');
-
-        input[0].addEventListener('input', function () {
-                this.value = this.value.replace(/[^0-9+]/ig, '');
-            });
-
-        bottomInput[1].addEventListener('input', function() {
-            this.value = this.value.replace(/[^0-9+]/ig, '');
-        });
-
-
-        bottomForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            bottomForm.appendChild(statusMessage);
-
-            let request = new XMLHttpRequest();
-            request.open('POST', 'server.php');
-            request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-
-            let formData = new FormData(bottomForm);
-
-        
-
-            let obj = {};
-            formData.forEach(function(value, key) {
-                obj[key] = value;
-            });
-
-            let json = JSON.stringify(obj);
-            request.send(json);
-
-            request.addEventListener('readystatechange', function() {
-                if (request.readyState < 4) {
-                    statusMessage.innerHTML = message.loading;
-                    console.log(formData);
-                } else if (request.readyState === 4 && request.status == 200) {
-                    statusMessage.innerHTML = message.success;
-                } else {
-                    statusMessage.innerHTML = message.failure;
-                }
-            });
-
-                for(let i = 0; i < bottomInput.length; i++) {
-                    bottomInput[i].value = '';
-                }
-
-
-
-
-        });
-
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            form.appendChild(statusMessage);
-
-            let request = new XMLHttpRequest();
-            request.open('POST', 'server.php');
-            //request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-
-            let formData = new FormData(form);
-
-            let obj = {};
-            formData.forEach(function(value, key) {
-                obj[key] = value;
-            });
-            let json = JSON.stringify(obj);
-            request.send(json);
-
-            request.addEventListener('readystatechange', function() {
-                if (request.readyState < 4) {
-                    statusMessage.innerHTML = message.loading;
-                } else if (request.readyState === 4 && request.status == 200) {
-                    statusMessage.innerHTML = message.success;
-                } else {
-                    statusMessage.innerHTML = message.failure;
-                }
-            });
-
-                for(let i = 0; i < input.length; i++) {
-                    input[i].value = '';
-                }
-        }); */
 
 
     let form = document.getElementsByClassName('main-form')[0],
@@ -349,5 +259,120 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     sendForm(form);
     sendForm(formBottom);
+
+    // Slider
+
+    let slideIndex = 1,
+        slides = document.querySelectorAll('.slider-item'),
+        prev = document.querySelector('.prev'),
+        next = document.querySelector('.next'),
+        dotsWrap = document.querySelector('.slider-dots'),
+        dots = document.querySelectorAll('.dot');
+
+    showSlides(slideIndex);
+
+    function showSlides(n) {
+        if (n > slides.length) {
+            slideIndex = 1;
+        }
+
+        if (n < 1) {
+            slideIndex = slides.length;
+        }
+
+        slides.forEach((item) => item.style.display = 'none');
+
+        /*  for (let i = 0; i < slides.length; i++) {
+             slides[i].style.display = 'none';
+         } */
+
+        dots.forEach((item) => item.classList.remove('dot-active'));
+
+        slides[slideIndex - 1].style.display = 'block';
+        dots[slideIndex - 1].classList.add('dot-active');
+    }
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    prev.addEventListener('click', function () {
+        plusSlides(-1);
+    });
+
+    next.addEventListener('click', function () {
+        plusSlides(1);
+    });
+
+    dotsWrap.addEventListener('click', function (event) {
+        for (let i = 0; i < dots.length + 1; i++) {
+            if (event.target.classList.contains('dot') && event.target == dots[i - 1]) {
+                currentSlide(i);
+            }
+        }
+    });
+
+    // Calculator
+    let persons = document.querySelectorAll('.counter-block-input')[0],
+        restDays = document.querySelectorAll('.counter-block-input')[1],
+        place = document.getElementById('select'),
+        totalValue = document.getElementById('total'),
+        personsSum = 0,
+        daysSum = 0,
+        total = 0;
+
+    persons.addEventListener('input', function () {
+        this.value = this.value.replace(/\+|\e|\.|\,/ig, '');
+    });
+
+    restDays.addEventListener('input', function () {
+        this.value = this.value.replace(/\+|\e|\.|\,/ig, '');
+    });
+
+
+    totalValue.innerHTML = 0;
+
+
+    persons.addEventListener('change', function () {
+        personsSum = +this.value;
+
+        if (personsSum > 0 && daysSum > 0) {
+         total = (daysSum + personsSum) * 4000;            
+        }
+
+        if (restDays.value == '') {
+            totalValue.innerHTML = 0;
+        } else {
+            totalValue.innerHTML = total;
+        }
+    });
+
+    restDays.addEventListener('change', function () {
+        daysSum = +this.value;
+
+        if (personsSum > 0 && daysSum > 0) {
+            total = (daysSum + personsSum) * 4000;            
+           }
+
+        if (persons.value == '') {
+            totalValue.innerHTML = 0;
+        } else {
+            totalValue.innerHTML = total;
+        }
+    });
+
+
+    place.addEventListener('change', function () {
+        if (restDays.value == '' || persons.value == '') {
+            totalValue.innerHTML = 0;
+        } else {
+            let a = total;
+            totalValue.innerHTML = a * this.options[this.selectedIndex].value;
+        }
+    });
 
 });

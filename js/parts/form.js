@@ -71,3 +71,5 @@ function form() {
   sendForm(form);
   sendForm(formBottom);
 }
+
+module.exports = form;

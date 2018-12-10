@@ -53,8 +53,9 @@
           }
 
       }
-
-
-      setClock('timer', deadline);
-
   }
+  
+  setClock('timer', deadline);
+}
+
+  module.exports = timer;
